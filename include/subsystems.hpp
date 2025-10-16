@@ -11,6 +11,6 @@ inline pros::Motor intake(10);
 inline pros::Motor lift(7);
 
 
-inline pros::adi::Pneumatics odom('D', true);
-inline pros::adi::Pneumatics pto('E', false);
-inline pros::adi::Pneumatics pusher('F', false);
+inline ez::Piston pod('D');
+inline ez::Piston pto('E');
+inline ez::Piston loader('F');

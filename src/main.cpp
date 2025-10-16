@@ -118,7 +118,8 @@ void autonomous() {
   chassis.drive_imu_reset();                  // Reset gyro position to 0
   chassis.drive_sensor_reset();               // Reset drive sensors to 0
   chassis.odom_xyt_set(0_in, 0_in, 0_deg);    // Set the current position, you can start at a specific position with this
-  chassis.drive_brake_set(MOTOR_BRAKE_HOLD);  // Set motors to hold.  This helps autonomous consistency
+  chassis.drive_brake_set(MOTOR_BRAKE_HOLD);
+    // Set motors to hold.  This helps autonomous consistency
 
   /*
   Odometry and Pure Pursuit are not magic
@@ -135,6 +136,35 @@ void autonomous() {
 
   ez::as::auton_selector.selected_auton_call();  // Calls selected auton from autonomous selector
 }
+
+
+/*void toggle_odom(){                  //odomLift 
+  if(odom.is_extended()){
+    odom.retract();
+  }
+  else{
+    odom.extend();
+  }
+}
+
+void toggle_pusher(){                  //pusher
+  if(pusher.is_extended()){
+    pusher.retract();
+  }
+  else{
+    pusher.extend();
+  }
+}
+
+void toggle_pto(){                  //pto
+  if(pto.is_extended()){
+    pto.retract();
+  }
+  else{
+    pto.extend();
+  }
+}*/
+
 
 /**
  * Simplifies printing tracker values to the brain screen
@@ -242,8 +272,12 @@ void ez_template_extras() {
 void opcontrol() {
   // This is preference to what you like to drive on
   chassis.drive_brake_set(MOTOR_BRAKE_COAST);
+  lift.set_brake_mode(MOTOR_BRAKE_HOLD);
 
   while (true) {
+
+    pod.button_toggle(master.get_digital(DIGITAL_X));
+    loader.button_toggle(master.get_digital(DIGITAL_Y));
     // Gives you some extras to make EZ-Template ezier
     ez_template_extras();
 
@@ -253,6 +287,19 @@ void opcontrol() {
     // chassis.opcontrol_arcade_flipped(ez::SPLIT);    // Flipped split arcade
     // chassis.opcontrol_arcade_flipped(ez::SINGLE);   // Flipped single arcade
 
+    
+    if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
+            intake.move(127);
+        } else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
+            intake.move(-127);
+        } else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
+            lift.move(127);
+        } else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
+            lift.move(-127);
+        } else {
+            intake.move(0);
+            lift.move(0);
+        }
     // . . .
     // Put more user control code here!
     // . . .
