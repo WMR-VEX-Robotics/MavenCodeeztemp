@@ -59,19 +59,8 @@ void initialize() {
   // Autonomous Selector using LLEMU
   ez::as::auton_selector.autons_add({
       {"autonTest", autonTest},
-      {"Turn\n\nTurn 3 times.", turn_example},
-      {"Drive and Turn\n\nDrive forward, turn, come back", drive_and_turn},
-      {"Drive and Turn\n\nSlow down during drive", wait_until_change_speed},
-      {"Swing Turn\n\nSwing in an 'S' curve", swing_example},
-      {"Motion Chaining\n\nDrive forward, turn, and come back, but blend everything together :D", motion_chaining},
-      {"Combine all 3 movements", combining_movements},
-      {"Interference\n\nAfter driving forward, robot performs differently if interfered or not", interfered_example},
-      {"Simple Odom\n\nThis is the same as the drive example, but it uses odom instead!", odom_drive_example},
-      {"Pure Pursuit\n\nGo to (0, 30) and pass through (6, 10) on the way.  Come back to (0, 0)", odom_pure_pursuit_example},
-      {"Pure Pursuit Wait Until\n\nGo to (24, 24) but start running an intake once the robot passes (12, 24)", odom_pure_pursuit_wait_until_example},
-      {"Boomerang\n\nGo to (0, 24, 45) then come back to (0, 0, 0)", odom_boomerang_example},
-      {"Boomerang Pure Pursuit\n\nGo to (0, 24, 45) on the way to (24, 24) then come back to (0, 0, 0)", odom_boomerang_injected_pure_pursuit_example},
-      {"Measure Offsets\n\nThis will turn the robot a bunch of times and calculate your offsets for your tracking wheels.", measure_offsets},
+    
+
   });
 
   pod.set(true);
@@ -81,6 +70,54 @@ void initialize() {
   ez::as::initialize();
   master.rumble(chassis.drive_imu_calibrated() ? "." : "---");
 }
+
+void screen_print_tracker(ez::tracking_wheel *tracker, std::string name, int line) {
+  std::string tracker_value = "", tracker_width = "";
+  // Check if the tracker exists
+  if (tracker != nullptr) {
+    tracker_value = name + " tracker: " + util::to_string_with_precision(tracker->get());             // Make text for the tracker value
+    tracker_width = "  width: " + util::to_string_with_precision(tracker->distance_to_center_get());  // Make text for the distance to center
+  }
+  ez::screen_print(tracker_value + tracker_width, line);  // Print final tracker text
+}
+
+/**
+ * Ez screen task
+ * Adding new pages here will let you view them during user control or autonomous
+ * and will help you debug problems you're having
+ */
+void ez_screen_task() {
+  while (true) {
+// Only run this when not connected to a competition switch
+   
+      // Blank page for odom debugging
+      if (chassis.odom_enabled() && !chassis.pid_tuner_enabled()) {
+        // If we're on the first blank page...
+        if (ez::as::page_blank_is_on(0)) {
+          // Display X, Y, and Theta
+          ez::screen_print("x: " + util::to_string_with_precision(chassis.odom_x_get()) +
+                               "\ny: " + util::to_string_with_precision(chassis.odom_y_get()) +
+                                   "\na: " + util::to_string_with_precision(chassis.odom_theta_get()),
+                           1);  // Don't override the top Page line
+
+          // Display all trackers that are being used
+          screen_print_tracker(chassis.odom_tracker_left, "l", 4);
+          screen_print_tracker(chassis.odom_tracker_right, "r", 5);
+          screen_print_tracker(chassis.odom_tracker_back, "b", 6);
+          screen_print_tracker(chassis.odom_tracker_front, "f", 7);
+        }
+      }
+    }
+
+    
+
+    // Remove all blank pages when connected to a comp switch
+    
+
+    pros::delay(ez::util::DELAY_TIME);
+  
+}
+
 
 /**
  * Runs while the robot is in the disabled state of Field Management System or
@@ -116,6 +153,9 @@ void competition_initialize() {
  * from where it left off.
  */
 void autonomous() {
+  
+  //chassis.pid_tuner_disable();
+  
   chassis.pid_targets_reset();                // Resets PID targets to 0
   chassis.drive_imu_reset();                  // Reset gyro position to 0
   chassis.drive_sensor_reset();               // Reset drive sensors to 0
@@ -172,54 +212,12 @@ void toggle_pto(){                  //pto
 /**
  * Simplifies printing tracker values to the brain screen
  */
-void screen_print_tracker(ez::tracking_wheel *tracker, std::string name, int line) {
-  std::string tracker_value = "", tracker_width = "";
-  // Check if the tracker exists
-  if (tracker != nullptr) {
-    tracker_value = name + " tracker: " + util::to_string_with_precision(tracker->get());             // Make text for the tracker value
-    tracker_width = "  width: " + util::to_string_with_precision(tracker->distance_to_center_get());  // Make text for the distance to center
-  }
-  ez::screen_print(tracker_value + tracker_width, line);  // Print final tracker text
-}
 
-/**
- * Ez screen task
- * Adding new pages here will let you view them during user control or autonomous
- * and will help you debug problems you're having
- */
-void ez_screen_task() {
-  while (true) {
-    // Only run this when not connected to a competition switch
-    if (!pros::competition::is_connected()) {
-      // Blank page for odom debugging
-      if (chassis.odom_enabled() && !chassis.pid_tuner_enabled()) {
-        // If we're on the first blank page...
-        if (ez::as::page_blank_is_on(0)) {
-          // Display X, Y, and Theta
-          ez::screen_print("x: " + util::to_string_with_precision(chassis.odom_x_get()) +
-                               "\ny: " + util::to_string_with_precision(chassis.odom_y_get()) +
-                               "\na: " + util::to_string_with_precision(chassis.odom_theta_get()),
-                           1);  // Don't override the top Page line
 
-          // Display all trackers that are being used
-          screen_print_tracker(chassis.odom_tracker_left, "l", 4);
-          screen_print_tracker(chassis.odom_tracker_right, "r", 5);
-          screen_print_tracker(chassis.odom_tracker_back, "b", 6);
-          screen_print_tracker(chassis.odom_tracker_front, "f", 7);
-        }
-      }
-    }
 
-    // Remove all blank pages when connected to a comp switch
-    else {
-      if (ez::as::page_blank_amount() > 0)
-        ez::as::page_blank_remove_all();
-    }
 
-    pros::delay(ez::util::DELAY_TIME);
-  }
-}
-pros::Task ezScreenTask(ez_screen_task);
+
+
 
 /**
  * Gives you some extras to run in your opcontrol:
@@ -273,12 +271,15 @@ void ez_template_extras() {
  * task, not resume it from where it left off.
  */
 void opcontrol() {
+  //chassis.pid_tuner_disable();
+  
   // This is preference to what you like to drive on
   chassis.drive_brake_set(MOTOR_BRAKE_COAST);
   lift.set_brake_mode(MOTOR_BRAKE_HOLD);
 
   while (true) {
 
+   
     pod.button_toggle(master.get_digital(DIGITAL_X));
     loader.button_toggle(master.get_digital(DIGITAL_Y));
     // Gives you some extras to make EZ-Template ezier
@@ -292,21 +293,23 @@ void opcontrol() {
 
     
     if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
-            intake.move(127);
-        } else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
-            intake.move(-127);
-        } else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
-            lift.move(127);
-        } else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
-            lift.move(-127);
-        } else {
-            intake.move(0);
-            lift.move(0);
-        }
+      intake.move(127);
+    } else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
+      intake.move(-127);
+    } else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
+      lift.move(127);
+    } else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
+      lift.move(-127);
+    } else {
+      intake.move(0);
+      lift.move(0);
+    }
     // . . .
-    // Put more user control code here!
+    //screenTask();
     // . . .
 
     pros::delay(ez::util::DELAY_TIME);  // This is used for timer calculations!  Keep this ez::util::DELAY_TIME
   }
 }
+
+pros::Task ezScreenTask(ez_screen_task);

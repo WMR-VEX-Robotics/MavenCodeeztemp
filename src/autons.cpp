@@ -378,6 +378,6 @@ void measure_offsets() {
 // . . .
 
 void autonTest() {
-  chassis.pid_odom_set({{24, 48, 90}, fwd, 127});
+  chassis.pid_odom_set({{10, 10, 90}, fwd, 127});
   //chassis.pid_odom_set({{0, 24, 0}, fwd, 127});
 }
