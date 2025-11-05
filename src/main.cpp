@@ -299,6 +299,8 @@ void opcontrol() {
             lift.move(127);
         } else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
             lift.move(-127);
+        } else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT)){
+            chassis.pid_odom_set({{0, 24, 0}, fwd, 127});
         } else {
             intake.move(0);
             lift.move(0);
