@@ -244,11 +244,11 @@ void ez_template_extras() {
       chassis.pid_tuner_toggle();
 
     // Trigger the selected autonomous routine
-    if (master.get_digital(DIGITAL_B) && master.get_digital(DIGITAL_DOWN)) {
+    /*if (master.get_digital(DIGITAL_B) && master.get_digital(DIGITAL_DOWN)) {
       pros::motor_brake_mode_e_t preference = chassis.drive_brake_get();
       autonomous();
       chassis.drive_brake_set(preference);
-    }
+    }*/
 
     // Allow PID Tuner to iterate
     chassis.pid_tuner_iterate();
@@ -294,9 +294,13 @@ void opcontrol() {
 
     
     if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
-            intake.move(127);
+            intakebottom.move(127);
         } else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
-            intake.move(-127);
+            intakebottom.move(-127);
+        } else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_UP)) {
+            intaketop.move(-127);
+        } else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN)) {
+            intaketop.move(-127); 
         } else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
             lift.move(127);
         } else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
@@ -304,7 +308,7 @@ void opcontrol() {
         } else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT)){
             chassis.pid_odom_set({{0, 24, 0}, fwd, 127});
         } else {
-            intake.move(0);
+            intakebottom.move(0);
             lift.move(0);
         }
     // . . .

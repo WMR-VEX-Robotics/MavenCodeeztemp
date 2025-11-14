@@ -17,7 +17,7 @@ void default_constants() {
   // P, I, D, and Start I
   chassis.pid_drive_constants_set(12.67, 0.0, 5.4);         // Fwd/rev constants, used for odom and non odom motions
   chassis.pid_heading_constants_set(11.0, 0.0, 20.0);        // Holds the robot straight while going forward without odom
-  chassis.pid_turn_constants_set(.83, 0, 0, 0);     // Turn in place constants
+  chassis.pid_turn_constants_set(.83, 0, 0);     // Turn in place constants
   chassis.pid_swing_constants_set(6.0, 0.0, 65.0);           // Swing constants
   chassis.pid_odom_angular_constants_set(6.5, 0.0, 52.5);    // Angular control for odom motions
   chassis.pid_odom_boomerang_constants_set(5.8, 0.0, 32.5);  // Angular control for boomerang motions
@@ -377,19 +377,24 @@ void measure_offsets() {
 // Make your own autonomous functions here!
 // . . .
 void turnTo(float angle){
+  //moveTopose(float x, float y, float angle, ez::drive_directions direction, int speed)
 if(angle>=-45 && angle <= 45){
-  chassis.pid_turn_constants_set(1.2, 0, 0, 0);
+  chassis.pid_turn_constants_set(1.2, 0, 0);
+  //chassis.pid_odom_set({{x, y, angle}, direction, speed});
   chassis.pid_turn_set(angle, 127, ez::shortest);
 } 
 else if((angle>=-90 && angle < -45)||(angle > 45 && angle<=90)){
-  chassis.pid_turn_constants_set(.99, 0, 0, 0);
+  chassis.pid_turn_constants_set(.99, 0, 0);
+  //chassis.pid_odom_set({{x, y, angle}, direction, speed});
   chassis.pid_turn_set(angle, 127, ez::shortest);
 }
 else if((angle>=-135 && angle < -90)||(angle > 90 && angle<=135)){
-  chassis.pid_turn_constants_set(.9, 0, 0, 0);
+  chassis.pid_turn_constants_set(.9, 0, 0);
+  //chassis.pid_odom_set({{x, y, angle}, direction, speed});
   chassis.pid_turn_set(angle, 127, ez::shortest);
 } else {
-  chassis.pid_turn_constants_set(.83, 0, 0, 0);
+  chassis.pid_turn_constants_set(.83, 0, 0);
+  //chassis.pid_odom_set({{x, y, angle}, direction, speed});
   chassis.pid_turn_set(angle, 127, ez::shortest);
 }
 }
@@ -398,12 +403,15 @@ void autonTest() {
   //chassis.pid_odom_set({{24, 48, 90}, fwd, 127});
  // pros::delay(10);
  // chassis.pid_odom_set({{0, 72, 0}, fwd, 127});
-    //chassis.pid_odom_set({{0, 5, 0}, fwd, 127});
-    turnTo(180);
+    //chassis.pid_odom_set({{0, 10, 0}, fwd, 127});
+    //pros::delay(1000);
+    //turnTo(90);
+    //chassis.pid_odom_set({{10, 10, 90}, fwd, 127});
+    //moveTopose(0, 0, 0, fwd, 127);
     //chassis.pid_odom_set({{0, 48, 0}, fwd, 127});
-    /*pros::delay(1500);
-    chassis.pid_turn_set(180_deg, 60);
-    pros::delay(1500);
-    chassis.pid_odom_set({{0, 0, 180}, fwd, 127});*/
+    //pros::delay(1500);
+    //chassis.pid_turn_set(180_deg, 60);
+    //pros::delay(1500);
+    //chassis.pid_odom_set({{0, 0, 180}, fwd, 127});
     //chassis.pid_odom_set({{72, 96, 90}, fwd, 127});
 }
