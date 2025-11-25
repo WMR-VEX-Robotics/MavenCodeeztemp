@@ -400,7 +400,31 @@ else if((angle>=-135 && angle < -90)||(angle > 90 && angle<=135)){
 }
 
 void autonTest() {
-  //chassis.pid_odom_set({{24, 48, 90}, fwd, 127});
+  //chassis.pid_odom_set({{-1, 15, -30}, fwd, 127});
+//jerry.io code points
+  //chassis.pid_odom_set({{0, 0, 68}, fwd, 127});
+  chassis.pid_odom_set({{-1.441, 29.208, 68}, fwd, 127});
+  /*chassis.pid_odom_set({{-38.806, 3.397, -90}, fwd, 127});
+  chassis.pid_odom_set({{-24.365, 39.645, -90}, fwd, 127});
+  //chassis.pid_odom_set({{-40.96, 29.051, }, fwd, 127});
+  chassis.pid_odom_set({{-9.869, 61.366, 0}, fwd, 127});
+  chassis.pid_odom_set({{14.595, 76.412, 135}, fwd, 127});
+  chassis.pid_odom_set({{9.233, 121.828, 90}, fwd, 127});
+  chassis.pid_odom_set({{-6.576, 83.638, 90}, fwd, 127});
+  chassis.pid_odom_set({{26.844, 48.51, 45}, fwd, 127});
+  chassis.pid_odom_set({{19.333, 67.479, 45}, fwd, 127});
+  chassis.pid_odom_set({{57.643, 58.071, 140}, fwd, 127});
+  chassis.pid_odom_set({{96.844, 88.897, 90}, fwd, 127});
+  chassis.pid_odom_set({{81.423, 49.791, 90}, fwd, 127});
+  //chassis.pid_odom_set({{94.581, 57.943, }, fwd, 127});
+  chassis.pid_odom_set({{41.29, 51.4, -45}, fwd, 127});
+  //chassis.pid_odom_set({{53.91, 55.406, }, fwd, 127});
+  chassis.pid_odom_set({{42.251, 17.626, -110}, fwd, 127});
+  chassis.pid_odom_set({{48.054, -32.331, -90}, fwd, 127});
+  chassis.pid_odom_set({{63.284, 8.18, -90}, fwd, 127});
+  //chassis.pid_odom_set({{59.854, -1.247, }, fwd, 127});
+  //chassis.pid_odom_set({{50.928, 14.689, }, fwd, 127});
+  chassis.pid_odom_set({{1.603, -15.84, 180}, fwd, 127});*/
  // pros::delay(10);
  // chassis.pid_odom_set({{0, 72, 0}, fwd, 127});
     //chassis.pid_odom_set({{0, 10, 0}, fwd, 127});
