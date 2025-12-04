@@ -400,10 +400,45 @@ else if((angle>=-135 && angle < -90)||(angle > 90 && angle<=135)){
 }
 
 void autonTest() {
+  intakebottom.move(127); // start intake
+  intaketop.move(127);
+  chassis.pid_odom_set({{-12.75, 16.5, -10}, fwd, 127});
+  pros::delay(1500);
+  chassis.pid_odom_set({{-12.75, 37, -10}, fwd, 127});
+  pros::delay(2000);
+  //pusher.extend(); // extend pusher
+  //pros::delay(1000);
+  turnTo(-80); // added exit conditions
+  pros::delay(1000);
+  chassis.pid_odom_set({{-37.5, -35, 184}, fwd, 127});
+  pros::delay(4500);
+  intaketop.move(127);
+  intakebottom.move(127);
+  chassis.pid_odom_set({{-38, -43, 183.76}, fwd, 127});
+  pros::delay(3300);
+  chassis.pid_odom_set({{-28, -30, 180}, rev, 127});
+  pros::delay(1000);
+  intaketop.move(-120);
+  intakebottom.move(-120);
+  pros::delay(900);
+  intaketop.move(127);
+  intakebottom.move(127);
+  //pusher.toggle();
+  turnTo(0);
+  pros::delay(1000);
+  chassis.pid_odom_set({{-34, 5, 0}, fwd, 127});
+  pros::delay(1500);
+  lift.move(127); // lift up
+  pros::delay(1000); // wait for lift to finish
+  lift.move(5); // stop lift
+  chassis.pid_odom_set({{-34, 30, 0}, fwd, 127});
+  pros::delay(1300);
+  intaketop.move(-127); // start intake out*/
+  intakebottom.move(-127);
   //chassis.pid_odom_set({{-1, 15, -30}, fwd, 127});
 //jerry.io code points
   //chassis.pid_odom_set({{0, 0, 68}, fwd, 127});
-  chassis.pid_odom_set({{-1.441, 29.208, 68}, fwd, 127});
+  //chassis.pid_odom_set({{-1.441, 29.208, 68}, fwd, 127});
   /*chassis.pid_odom_set({{-38.806, 3.397, -90}, fwd, 127});
   chassis.pid_odom_set({{-24.365, 39.645, -90}, fwd, 127});
   //chassis.pid_odom_set({{-40.96, 29.051, }, fwd, 127});
