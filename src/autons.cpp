@@ -15,12 +15,14 @@ const int SWING_SPEED = 110;
 ///
 void default_constants() {
   // P, I, D, and Start I
-  chassis.pid_drive_constants_set(12.67, 0.0, 5.4);         // Fwd/rev constants, used for odom and non odom motions
+  chassis.pid_drive_constants_set(20.0, 0.0, 100.0);         // Fwd/rev constants, used for odom and non odom motions
   chassis.pid_heading_constants_set(11.0, 0.0, 20.0);        // Holds the robot straight while going forward without odom
-  chassis.pid_turn_constants_set(.83, 0, 0);     // Turn in place constants
+  chassis.pid_turn_constants_set(3.0, 0.05, 20.0, 15.0);     // Turn in place constants
   chassis.pid_swing_constants_set(6.0, 0.0, 65.0);           // Swing constants
   chassis.pid_odom_angular_constants_set(6.5, 0.0, 52.5);    // Angular control for odom motions
   chassis.pid_odom_boomerang_constants_set(5.8, 0.0, 32.5);  // Angular control for boomerang motions
+  // . . .
+
 
   // Exit conditions
   chassis.pid_turn_exit_condition_set(90_ms, 3_deg, 250_ms, 7_deg, 500_ms, 500_ms);
@@ -376,65 +378,89 @@ void measure_offsets() {
 // . . .
 // Make your own autonomous functions here!
 // . . .
-void turnTo(float angle){
+void moveTopose(float x, float y, float angle, ez::drive_directions direction, int speed){
   //moveTopose(float x, float y, float angle, ez::drive_directions direction, int speed)
 if(angle>=-45 && angle <= 45){
-  chassis.pid_turn_constants_set(1.2, 0, 0);
-  //chassis.pid_odom_set({{x, y, angle}, direction, speed});
-  chassis.pid_turn_set(angle, 127, ez::shortest);
+  chassis.pid_odom_boomerang_constants_set(1.2, 0, 0);
+  chassis.pid_odom_set({{x, y, angle}, direction, speed});
+  //chassis.pid_turn_set(angle, 127, ez::shortest);
 } 
 else if((angle>=-90 && angle < -45)||(angle > 45 && angle<=90)){
-  chassis.pid_turn_constants_set(.99, 0, 0);
-  //chassis.pid_odom_set({{x, y, angle}, direction, speed});
-  chassis.pid_turn_set(angle, 127, ez::shortest);
+  chassis.pid_odom_boomerang_constants_set(.99, 0, 0);
+  chassis.pid_odom_set({{x, y, angle}, direction, speed});
+  //chassis.pid_turn_set(angle, 127, ez::shortest);
 }
 else if((angle>=-135 && angle < -90)||(angle > 90 && angle<=135)){
-  chassis.pid_turn_constants_set(.9, 0, 0);
-  //chassis.pid_odom_set({{x, y, angle}, direction, speed});
-  chassis.pid_turn_set(angle, 127, ez::shortest);
+  chassis.pid_odom_boomerang_constants_set(.9, 0, 0);
+  chassis.pid_odom_set({{x, y, angle}, direction, speed});
+  //chassis.pid_turn_set(angle, 127, ez::shortest);
 } else {
-  chassis.pid_turn_constants_set(.83, 0, 0);
-  //chassis.pid_odom_set({{x, y, angle}, direction, speed});
-  chassis.pid_turn_set(angle, 127, ez::shortest);
+  chassis.pid_odom_boomerang_constants_set(.83, 0, 0);
+  chassis.pid_odom_set({{x, y, angle}, direction, speed});
+  //chassis.pid_turn_set(angle, 127, ez::shortest);
 }
 }
 
 void autonTest() {
+  /*chassis.odom_xyt_set(0_in, 0_in, 0_deg);
+  chassis.pid_odom_set({{0, 24, 0}, fwd, 60});
+  chassis.pid_wait_quick();
+  chassis.pid_odom_set({{24, 24, 90}, fwd, 60});
+  chassis.pid_wait_quick();
+  //chassis.pid_odom_set({{48, 0, 180}, fwd, 60});*/
+  //redlefttestcode
   intakebottom.move(127); // start intake
-  intaketop.move(127);
-  chassis.pid_odom_set({{-12.75, 16.5, -10}, fwd, 127});
-  pros::delay(1500);
-  chassis.pid_odom_set({{-12.75, 37, -10}, fwd, 127});
-  pros::delay(2000);
-  //pusher.extend(); // extend pusher
+  //intaketop.move(127);
+  chassis.pid_odom_set({{-8.75, 15.5, -7}, fwd, 80});
+  chassis.pid_wait_quick();
+  chassis.pid_odom_set({{-9.75, 35.7, -13}, fwd, 55});
+  pros::delay(950);
+  loader.set(true); // extend pusher
+  pros::delay(1000);
+  chassis.pid_turn_set(-80, 100);
+  chassis.pid_odom_set({{-20, 0, -160}, fwd, 70}); // added exit conditions
+  //chassis.pid_wait_quick();
+  chassis.pid_odom_set({{-35, -15, 179.5}, fwd, 70});
+  
+  pros::delay(5000);
+  //chassis.pid_odom_set({{-37.5, -35, 184}, fwd, 127});
+  
+  //intaketop.move(127);
+  //intakebottom.move(127);
+  //int i = 0;
+  /*while(i<2) {
+    chassis.pid_odom_set({{-35, -14, 190}, fwd, 127});
+    pros::delay(250);
+    chassis.pid_odom_set({{-35, -14, 170}, fwd, 127});
+    pros::delay(250);
+    i++;
+  }*/
+
+  
+  chassis.pid_odom_set({{-35, 5, 180}, rev, 127});
+  pros::delay(1000);
+  //intaketop.move(-120);
+  intakebottom.move(-90);
+  pros::delay(200);
+  //intaketop.move(127);
+  intakebottom.move(127);
+  loader.set(false);
+  chassis.pid_odom_set({{-35, 10, 0}, fwd, 127});
   //pros::delay(1000);
-  turnTo(-80); // added exit conditions
+  //chassis.pid_odom_set({{-35, 0, 0}, fwd, 127});
   pros::delay(1000);
-  chassis.pid_odom_set({{-37.5, -35, 184}, fwd, 127});
-  pros::delay(4500);
-  intaketop.move(127);
-  intakebottom.move(127);
-  chassis.pid_odom_set({{-38, -43, 183.76}, fwd, 127});
-  pros::delay(3300);
-  chassis.pid_odom_set({{-28, -30, 180}, rev, 127});
+  // wait for lift to finish
+  //lift.move(5); // stop lift
+  chassis.pid_odom_set({{-35, 13, 0}, fwd, 127});
+  chassis.pid_wait_quick();
+  pros::delay(100);
+  lift.move(127);
   pros::delay(1000);
-  intaketop.move(-120);
-  intakebottom.move(-120);
-  pros::delay(900);
-  intaketop.move(127);
-  intakebottom.move(127);
-  //pusher.toggle();
-  turnTo(0);
-  pros::delay(1000);
-  chassis.pid_odom_set({{-34, 5, 0}, fwd, 127});
-  pros::delay(1500);
-  lift.move(127); // lift up
-  pros::delay(1000); // wait for lift to finish
-  lift.move(5); // stop lift
-  chassis.pid_odom_set({{-34, 30, 0}, fwd, 127});
-  pros::delay(1300);
-  intaketop.move(-127); // start intake out*/
+  chassis.pid_odom_set({{-34.75, 21, 0}, fwd, 127});
+  pros::delay(300);
+  //intaketop.move(-127); // start intake out
   intakebottom.move(-127);
+
   //chassis.pid_odom_set({{-1, 15, -30}, fwd, 127});
 //jerry.io code points
   //chassis.pid_odom_set({{0, 0, 68}, fwd, 127});
