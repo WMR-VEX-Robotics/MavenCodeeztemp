@@ -122,14 +122,16 @@ void autonomous() {
   It is possible to get perfectly consistent results without tracking wheels,
   but it is also possible to have extremely inconsistent results without tracking wheels.
   When you don't use tracking wheels, you need to:
-   - avoid wheel slip
+   - avoid wheel slipmm
    - avoid wheelies
    - avoid throwing momentum around (super harsh turns, like in the example below)
   You can do cool curved motions, but you have to give your robot the best chance
   to be consistent
   */
 
-  ez::as::auton_selector.selected_auton_call();  // Calls selected auton from autonomous selector
+  //ez::as::auton_selector.selected_auton_call();  // Calls selected auton from autonomous selector
+  //blueLeft();
+  redRight();
 }
 
 

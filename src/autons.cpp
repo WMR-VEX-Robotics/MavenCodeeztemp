@@ -403,59 +403,66 @@ void moveTopose(float x, float y, float angle, ez::drive_directions direction, i
 
 void redLeft() {
   intakebottom.move(127); // start intake
-  chassis.pid_odom_set({{-8.75, 15.5, -7}, fwd, 80});
+  chassis.pid_odom_set({{-8.5, 15.5, -7}, fwd, 80});
   chassis.pid_wait_quick();
-  chassis.pid_odom_set({{-9.75, 35.7, -13}, fwd, 55});
-  pros::delay(950);
+  chassis.pid_odom_set({{-9.5, 35.7, -16}, fwd, 55});
+  pros::delay(1050);
   loader.set(true); // extend pusher
   chassis.pid_turn_set(-80, 100);
   chassis.pid_odom_set({{-20, 0, -160}, fwd, 70}); // added exit conditions
-  chassis.pid_odom_set({{-35, -15, 179.5}, fwd, 70});
-  pros::delay(5000);
-  chassis.pid_odom_set({{-35, 5, 180}, rev, 127});
+  chassis.pid_odom_set({{-33.2 -15, 179.5}, fwd, 70});
+  pros::delay(3900);
+  chassis.pid_odom_set({{-34, 0, 180}, rev, 127});
   pros::delay(1000);
-  intakebottom.move(-90);
-  pros::delay(200);
+  intakebottom.move(-127);
+  pros::delay(300);
   intakebottom.move(127);
   loader.set(false);
-  chassis.pid_odom_set({{-35, 10, 0}, fwd, 127});
+  chassis.pid_odom_set({{-33.75, 10, 0}, fwd, 127});
   pros::delay(1000);
-  chassis.pid_odom_set({{-35, 13, 0}, fwd, 127});
+  chassis.pid_odom_set({{-33, 13, 0}, fwd, 127});
   chassis.pid_wait_quick();
   pros::delay(100);
   lift.move(127);
   pros::delay(1000);
-  chassis.pid_odom_set({{-34.75, 21, 0}, fwd, 127});
+  chassis.pid_odom_set({{-34.55, 21, 0}, fwd, 127});
   pros::delay(300);
   intakebottom.move(-127);
 }
 
 void redRight() {
   intakebottom.move(127); // start intake
-  chassis.pid_odom_set({{8.75, 15.5, 7}, fwd, 80});
+  chassis.pid_odom_set({{0.75, 4, 7}, fwd, 80});
   chassis.pid_wait_quick();
-  chassis.pid_odom_set({{9.75, 35.7, 13}, fwd, 55});
-  pros::delay(950);
+  chassis.pid_odom_set({{9.75, 35.7, 16}, fwd, 55});
+  pros::delay(1050);
   loader.set(true); // extend pusher
   chassis.pid_turn_set(80, 100);
   chassis.pid_odom_set({{20, 0, 160}, fwd, 70}); // added exit conditions
-  chassis.pid_odom_set({{35, -15, -179.5}, fwd, 70});
-  pros::delay(5000);
-  chassis.pid_odom_set({{35, 5, -180}, rev, 127});
+  chassis.pid_odom_set({{33.3, -17, -180}, fwd, 70});
+  pros::delay(3200);
+  int i = 0;
+  while(i<2) {
+    chassis.pid_odom_set({{33.3, -16, 180}, fwd, 70});
+    pros::delay(750);
+    chassis.pid_odom_set({{33.8, -17, 180}, fwd, 70});
+    i++;
+  }
+  pros::delay(600);
+  chassis.pid_odom_set({{32, 7, -180}, rev, 127});
   pros::delay(1000);
-  intakebottom.move(-90);
-  pros::delay(200);
+  intakebottom.move(-116);
+  pros::delay(300);
+  chassis.pid_turn_set(0, 127);
   intakebottom.move(127);
   loader.set(false);
-  chassis.pid_odom_set({{35, 10, 0}, fwd, 127});
-  pros::delay(1000);
-  chassis.pid_odom_set({{35, 13, 0}, fwd, 127});
+  chassis.pid_odom_set({{32.5, 9, 0}, fwd, 127});
   chassis.pid_wait_quick();
   pros::delay(100);
   lift.move(127);
-  pros::delay(1000);
-  chassis.pid_odom_set({{34.75, 21, 0}, fwd, 127});
-  pros::delay(300);
+  pros::delay(1100);
+  chassis.pid_odom_set({{32.75, 24, 0}, fwd, 127});
+  pros::delay(700);
   intakebottom.move(-127);
 }
 
@@ -468,7 +475,7 @@ void blueLeft() {
   loader.set(true); // extend pusher
   chassis.pid_turn_set(-80, 100);
   chassis.pid_odom_set({{-20, 0, -160}, fwd, 70}); // added exit conditions
-  chassis.pid_odom_set({{-35, -15, 179.5}, fwd, 70});
+  chassis.pid_odom_set({{-35, -15, 180.5}, fwd, 70});
   pros::delay(5000);
   chassis.pid_odom_set({{-35, 5, 180}, rev, 127});
   pros::delay(1000);
