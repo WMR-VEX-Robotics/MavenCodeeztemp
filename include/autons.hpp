@@ -21,3 +21,4 @@ void redLeft();
 void redRight();
 void blueRight();
 void blueLeft();
+void rightNewTest();

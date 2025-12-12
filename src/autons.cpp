@@ -523,3 +523,34 @@ void blueRight() {
   pros::delay(300);
   intakebottom.move(-127);
 }
+
+void rightNewTest() {
+  intakebottom.move(127); // start intake
+  chassis.pid_odom_set({{0.75, 4, 7}, fwd, 80});
+  chassis.pid_wait_quick();
+  chassis.pid_odom_set({{9.75, 35.7, 18}, fwd, 55});
+  chassis.pid_wait_quick();
+  chassis.pid_odom_set({{-5, 31, -45}, fwd, 100});
+  chassis.pid_wait_quick();
+  intakebottom.move(-80);
+  pros::delay(1000);
+  chassis.pid_turn_set(135, 127);
+  chassis.pid_odom_set({{33.3, -17, -180}, fwd, 70});
+  pros::delay(2000);
+  chassis.pid_odom_set({{32, 7, -180}, rev, 127});
+  pros::delay(1000);
+  intakebottom.move(-116);
+  pros::delay(300);
+  chassis.pid_turn_set(0, 127);
+  intakebottom.move(127);
+  loader.set(false);
+  chassis.pid_odom_set({{32.5, 9, 0}, fwd, 127});
+  chassis.pid_wait_quick();
+  pros::delay(100);
+  lift.move(127);
+  pros::delay(1100);
+  chassis.pid_odom_set({{32.75, 24, 0}, fwd, 127});
+  pros::delay(700);
+  intakebottom.move(-127);
+
+}
