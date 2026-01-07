@@ -606,51 +606,54 @@ void leftNewTest() {
 void skills() {
   chassis.odom_xyt_set(0, 0, 90);
   intakebottom.move(127);
-  chassis.pid_odom_set({{-38, 18, 180}, rev, 127});
+  chassis.pid_odom_set({{-28, 14, 180}, rev, 127});
   chassis.pid_wait_quick();
   loader.set(true);
-  chassis.pid_odom_set({{-38, -4, 180}, fwd, 127});
+  pros::delay(600);
+  chassis.pid_odom_set({{-28, -16, 180}, fwd, 127});
   chassis.pid_wait();
-  chassis.pid_odom_set({{-38, 5, 180}, fwd, 127});
+  pros::delay(500);
+  chassis.pid_odom_set({{-28, 8, 180}, rev, 127});
+  chassis.pid_wait();
+  pros::delay(500);
+  /*chassis.pid_turn_set(-20, 127);
   chassis.pid_wait_quick();
-  chassis.pid_turn_set(-20, 127);
-  chassis.pid_wait_quick();
-  chassis.pid_odom_set({{{-48, 24}, fwd, 110},
-                      {{-48, 84}, fwd, 110},
-                      {{-38, 135.2, 0}, fwd, 127}},
+  chassis.pid_odom_set({{{-36, 24}, fwd, 110},
+                      {{-36, 84}, fwd, 110},
+                      {{-26, 135.2, 0}, fwd, 127}},
                       false);
   chassis.pid_wait();
-  chassis.pid_odom_set({{-38, 122, 0}, rev, 127});
+  chassis.pid_odom_set({{-30, 122, 0}, rev, 127});
   chassis.pid_wait_quick();
   chassis.pid_turn_set(180, 127);
   loader.set(false);
   lift.move(127);
   pros::delay(500);
-  chassis.pid_odom_set({{-38, 100, 180}, fwd, 127});
+  chassis.pid_odom_set({{-30, 100, 180}, fwd, 127});
   intakebottom.move(-127);
   pros::delay(1500);
-  chassis.pid_odom_set({{-38, 105, 180}, rev, 127});
+  chassis.pid_odom_set({{-30, 105, 180}, rev, 127});
   intakebottom.move(127);
   lift.move(-127);
-  chassis.pid_odom_set({{58, 120, 0}, fwd, 127});
+  chassis.pid_odom_set({{66, 120, 0}, fwd, 127});
   chassis.pid_wait_quick();
   loader.set(true);
-  chassis.pid_odom_set({{58, 135.2, 0}, fwd, 127});
+  chassis.pid_odom_set({{66, 135.2, 0}, fwd, 127});
   chassis.pid_wait();
-  chassis.pid_odom_set({{58, 120, 0}, rev, 127});
+  chassis.pid_odom_set({{66, 120, 0}, rev, 127});
   chassis.pid_wait_quick();
   chassis.pid_turn_set(160, 127);
   chassis.pid_wait_quick();
-  chassis.pid_odom_set({{{68, 84}, fwd, 110},
-                      {{68, 24}, fwd, 110},
-                      {{58, -4, 180}, fwd, 127}},
+  chassis.pid_odom_set({{{76, 84}, fwd, 110},
+                      {{76, 24}, fwd, 110},
+                      {{66, -4, 180}, fwd, 127}},
                       false);
   chassis.pid_wait();
-  chassis.pid_odom_set({{58, 5, 180}, rev, 127});
+  chassis.pid_odom_set({{66, 5, 180}, rev, 127});
   chassis.pid_wait_quick();
   chassis.pid_turn_set(0, 127);
   chassis.pid_wait_quick();
-  chassis.pid_odom_set({{58, 22, 0}, fwd, 127});
-  intakebottom.move(-127);
+  chassis.pid_odom_set({{66, 22, 0}, fwd, 127});
+  intakebottom.move(-127);*/
 
 }
