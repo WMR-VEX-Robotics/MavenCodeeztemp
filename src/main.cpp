@@ -131,7 +131,9 @@ void autonomous() {
 
   //ez::as::auton_selector.selected_auton_call();  // Calls selected auton from autonomous selector
   //blueLeft();
-  rightNewTest();
+  //leftNewTest();
+  //rightNewTest();
+  skills();
 }
 
 
@@ -161,7 +163,6 @@ void toggle_pto(){                  //pto
     pto.extend();
   }
 }*/
-
 
 /**
  * Simplifies printing tracker values to the brain screen

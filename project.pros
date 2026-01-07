@@ -1,7 +1,7 @@
 {
   "py/object": "pros.conductor.project.Project",
   "py/state": {
-    "project_name": "Right",
+    "project_name": "skills",
     "target": "v5",
     "templates": {
       "EZ-Template": {
@@ -424,9 +424,9 @@
       }
     },
     "upload_options": {
-      "description": "MavenCode",
-      "icon": "X",
-      "slot": 2
+      "description": "s",
+      "icon": "pizza",
+      "slot": 3
     },
     "use_early_access": false
   }

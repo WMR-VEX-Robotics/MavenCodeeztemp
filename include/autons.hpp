@@ -22,3 +22,5 @@ void redRight();
 void blueRight();
 void blueLeft();
 void rightNewTest();
+void leftNewTest();
+void skills();
